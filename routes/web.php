@@ -77,7 +77,7 @@ Route::get('/buscadorCompra', 'ComprasController@buscador')->name('buscadorCompr
 Route::get('/buscadorVenta', 'VentasController@buscador')->name('buscadorVenta');
 
 
-
+Route::get('ayuda/download', 'ayudaController@download');
 
 Route::get('/PendienteVenta', 'VentasController@index2')->name('Pendiente');
 
@@ -94,3 +94,16 @@ Route::get('/desactivar/{id}', 'EmpleadoController@desactivar')->name('desactiva
 Route::get('/confirmar/{id}', 'VentasController@confirmar')->name('confirmarE');
 
 Route::get('/confirmarC/{id}', 'ComprasController@confirmarC')->name('confirmarC');
+
+Route::get('/pdfproductos', 'PDFController@PDFProductos')->name('generarpdf');
+
+Route::get('/ReporteCompras', 'PDFMovimientosController@elegirFechasCompras')->name('comprasReporte');
+
+Route::get('/ReporteVentas', 'PDFMovimientosController@elegirFechasVentas')->name('ventasReporte');
+
+Route::get('/buscadorClientes', 'ClienteController@buscadorClientes')->name('buscadorClientes');
+
+Route::post('/PdfMovimientosCompras', 'PDFMovimientosController@movimientosCompras')->name('pdfcompras');
+
+Route::post('/PdfMovimientosVentas', 'PDFMovimientosController@movimientosVentas')->name('pdfventas');
+

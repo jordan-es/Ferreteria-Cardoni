@@ -8,9 +8,16 @@
     ],
     "license": "MIT",
     "require": {
+<<<<<<< HEAD
         "php": "^7.2.5",
         "fideloper/proxy": "^4.2",
         "laravel/framework": "^7.0",
+=======
+        "php": "^7.2",
+        "barryvdh/laravel-dompdf": "^0.8.7",
+        "fideloper/proxy": "^4.0",
+        "laravel/framework": "^6.18.35",
+>>>>>>> 4a911dbb3f6ab9fba05ecc3ec8b87e8e207b5be5
         "laravel/tinker": "^2.0"
     },
     "require-dev": {

@@ -126,10 +126,11 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                                 @else
                                 {{ Auth::user()->name }}
-                                <a class="dropdown-item active" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                <a class="dropdown-item active rounded" style="color: white;" href="{{ route('logout') }}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
                                     Cerrar Sesión
                                 </a>
+                                <br>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
@@ -319,6 +320,7 @@
                             </li>
                             @endcanany
 
+                            @canany(['compras'])
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon far fa-sticky-note"></i>
@@ -342,6 +344,7 @@
                                     </li>
                                 </ul>
                             </li>
+                            @endcanany
 
                                    {{-- Empleados --}}
                             @canany(['secretaria'])
@@ -371,6 +374,71 @@
                             </li>
                             @endcanany
 
+
+                            @canany(['compras'])
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-sticky-note"></i>
+                                    <p>Reportes Productos<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+
+                                    <li class="nav-item">
+                                        <a href="{{route('generarpdf')}}"
+                                            class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}" target="_blank">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Stock</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            @endcanany
+
+
+                            @canany(['bodega', 'gerente', 'ventas', 'compras'])
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-sticky-note"></i>
+                                    <p>Reportes movimientos<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @canany(['bodega', 'gerente', 'ventas'])
+                                    <li class="nav-item">
+                                        <a href="{{route('ventasReporte')}}"
+                                            class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Ventas</p>
+                                        </a>
+                                    </li>
+                                    @endcanany
+
+                                    @canany(['bodega', 'gerente', 'compras'])
+                                    <li class="nav-item">
+                                        <a href="{{route('comprasReporte')}}"
+                                            class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Compras</p>
+                                        </a>
+                                    </li>
+                                    @endcanany
+                                </ul>
+                            </li>
+                            @endcanany
+
+                            <br><br><br><br><br><br><br><br><br><br><br><br>
+
+                            <li class="nav-item">
+                                <a href="{{url('ayuda/download')}}" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fa fa-exclamation-circle"></i>
+                                    <p>Manual Ayuda</p>
+                                </a>
+                            </li>
+
+                            {{-- <li class="nav-item has-treeview">
+                                <a class="dropdown-item active" href="{{ url('ayuda/download') }}">
+                                    Manual Ayuda
+                                </a>
+                            </li> --}}
 
                         </ul>
                     </nav>
@@ -634,6 +702,7 @@
 
 <!-- buscadores -->
 <script type="text/javascript">
+//productos
     window.addEventListener("load", function() {
         function busca(query = '') {
             $.ajax({
@@ -657,8 +726,7 @@
     })
 
 
-
-
+//Buscar pedidos 
         window.addEventListener("load", function() {
             var opc= document.querySelector('#opcBuscador');
             console.log(opc.value);
@@ -685,6 +753,7 @@
             })
 
         })
+        //buscar compras
         window.addEventListener("load", function() {
             var opc= document.querySelector('#opcBuscadorC');
             console.log(opc.value);
@@ -711,7 +780,7 @@
             })
 
         })
-
+        //busca empleados
         window.addEventListener("load", function() {
             var opc= document.querySelector('#opcBuscadorE');
             console.log(opc.value);
@@ -744,6 +813,29 @@
             })
 
         })
+
+        //buscador clientes
+        window.addEventListener("load", function() {
+        function buscaClientes(query = '') {
+            $.ajax({
+                url: "{{ route('buscadorClientes') }}",
+                method: 'GET',
+                data: {
+                    query: query
+                },
+                dataType: 'json',
+                success: function(data) {
+                    //console.log(data);
+                    $('#okC').html(data);
+                }
+            })
+        }
+        $(document).on('keyup', '#textoClientes', function() {
+            var query = $(this).val();
+            //console.log(query);
+            buscaClientes(query);
+        })
+    })
 
 
 
